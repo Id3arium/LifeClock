@@ -1,6 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import React,{useState} from "react"
+import React, {useState} from "react"
 import DatePicker from './DatePicker/DatePicker';
 
 function App() {
@@ -24,7 +23,6 @@ function App() {
       <p>When were you born?</p>
 
       <DatePicker onDateChanged={setBirthDate}/>
-      {birthDate}
 
     </div>
   );

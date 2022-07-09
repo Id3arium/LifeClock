@@ -1,8 +1,4 @@
-
 .date-picker-input{
-    position: relative
-  }
-  
-  .date-picker-calendar{
-    position: absolute
-  }
+  margin: auto;
+  position: absolute;
+}
