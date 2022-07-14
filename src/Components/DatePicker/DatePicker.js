@@ -1,16 +1,9 @@
-import ReactDatePicker from "react-datepicker"
-import "./DatePicker.css"
-import "react-datepicker/dist/react-datepicker.css";
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 export default function DatePicker(props){
+    let style = {margin:""}
     return (
-
-        <ReactDatePicker
-            className="date-picker-input"
-            onChange={(date) => props.onDateChanged(date)}
-            showMonthDropdown
-            showYearDropdown
-            dropdownMode="select"
-        />
+        <Calendar onClickDay={e => props.onDateChanged(e)} />
     )
 }
