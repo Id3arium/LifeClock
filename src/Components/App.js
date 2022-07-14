@@ -4,23 +4,31 @@ import DatePicker from './DatePicker/DatePicker';
 
 function App() {
   const [birthDate, setBirthDate] = useState(new Date());
-  let getSecondsAlive = () => {return (new Date() - birthDate) / 1000} 
+  let getSecondsAlive = () => {
+    let seconds = (new Date() - birthDate) / 1000
+    return seconds.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  } 
   let getMinutesAlive = () => { 
-    return (new Date() - birthDate) / (1000 * 60)
+    let minutes = (new Date() - birthDate) / (1000 * 60)
+    return minutes.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   } 
   let getHoursAlive = () => { 
-    return (new Date() - birthDate) / (1000 * 60 * 60) 
+    let hours = (new Date() - birthDate) / (1000 * 60 * 60) 
+    return hours.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   } 
   let getDaysAlive = () => { 
-    return (new Date() - birthDate) / (1000 * 60 * 60 * 24) 
+    let days = (new Date() - birthDate) / (1000 * 60 * 60 * 24) 
+    return days.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   } 
   let getWeeksAlive = () => { 
-    return (new Date() - birthDate) / (1000 * 60 * 60 * 24 * 7) 
+    let weeks = (new Date() - birthDate) / (1000 * 60 * 60 * 24 * 7) 
+    return weeks.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
   } 
   let getMonthsAlive = (now, birthDate ) => { 
     let months = (now.getFullYear() - birthDate.getFullYear()) * 12
     months += (now.getMonth() - birthDate.getMonth())
-    return months
+    return months.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   } 
   let getYearsAlive = () => { 
     let years = (new Date().getFullYear() - birthDate.getFullYear())
@@ -38,13 +46,13 @@ function App() {
       <DatePicker onDateChanged={onDateChanged} />
 
       <span>
-        <p>How many seconds {getSecondsAlive().toFixed(1)} </p>
-        <p>How many minutes {getMinutesAlive().toFixed(1)} </p>
-        <p>How many hours {getHoursAlive().toFixed(1)} </p>
-        <p>How many days {getDaysAlive().toFixed(1)} </p>
-        <p>How many weeks {getWeeksAlive().toFixed(1)} </p>
+        <p>How many seconds {getSecondsAlive()} </p>
+        <p>How many minutes {getMinutesAlive()} </p>
+        <p>How many hours {getHoursAlive()} </p>
+        <p>How many days {getDaysAlive()} </p>
+        <p>How many weeks {getWeeksAlive()} </p>
         <p>How many months {getMonthsAlive(new Date(), birthDate)} </p>
-        <p>How many years {getYearsAlive().toFixed(1)}</p>
+        <p>How many years {getYearsAlive()}</p>
         <p>Have passed since that day? </p>
       </span>
 
