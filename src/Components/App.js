@@ -3,29 +3,28 @@ import React, {useState} from "react";
 import DatePicker from './DatePicker/DatePicker';
 
 function App() {
-  const [birthDate, setBirthDate] = useState(Date.now());
-
-  let getSecondsAlive = () => {return (new Date.now - birthDate) / 1000} 
+  const [birthDate, setBirthDate] = useState(new Date());
+  let getSecondsAlive = () => {return (new Date() - birthDate) / 1000} 
   let getMinutesAlive = () => { 
-    return (Date.now() - birthDate) / (1000 * 60) 
+    return (new Date() - birthDate) / (1000 * 60) 
   } 
   let getHoursAlive = () => { 
-    return (Date.now() - birthDate) / (1000 * 60 * 60) 
+    return (new Date() - birthDate) / (1000 * 60 * 60) 
   } 
   let getDaysAlive = () => { 
-    return (Date.now() - birthDate) / (1000 * 60 * 60 * 24) 
+    return (new Date() - birthDate) / (1000 * 60 * 60 * 24) 
   } 
   let getWeeksAlive = () => { 
-    return (Date.now() - birthDate) / (1000 * 60 * 60 * 24 * 7) 
+    return (new Date() - birthDate) / (1000 * 60 * 60 * 24 * 7) 
   } 
-  let getMonthsAlive = () => { 
-    let months = (Date.now().getFullYear() - birthDate.getFullYear()) * 12
+  let getMonthsAlive = (now, birthDate ) => { 
+    let months = (now.getFullYear() - birthDate.getFullYear()) * 12
     months -= birthDate.getMonth() + 1
-    months += Date.now().getMonth()
+    months += now.getMonth()
     return months
   } 
   let getYearsAlive = () => { 
-    let years = (Date.now().getFullYear() - birthDate.getFullYear())
+    let years = (new Date().getFullYear() - birthDate.getFullYear())
     return years
   } 
 
@@ -45,7 +44,7 @@ function App() {
         <p>How many hours {getHoursAlive(birthDate)} </p>
         <p>How many days {getDaysAlive(birthDate)} </p>
         <p>How many weeks {getWeeksAlive(birthDate)} </p>
-        <p>How many months {getMonthsAlive(birthDate)} </p>
+        <p>How many months {getMonthsAlive(new Date(), birthDate)} </p>
         <p>How many years {getYearsAlive(birthDate)}</p>
         <p>Have passed since that day? </p>
       </span>
