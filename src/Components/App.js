@@ -1,10 +1,11 @@
 import './App.css';
 import React, {useState, useRef, useEffect} from "react";
 import DatePicker from './DatePicker/DatePicker';
-import anime from "animejs/lib/anime.es.js"
-
+import Anime, {anime as reactAanime} from 'react-anime';
+import anime from 'animejs';
 function App() {
   const [birthDate, setBirthDate] = useState(new Date());
+  const [datePicked, setDatepicked] = useState(false);
   let formatNum = (num) => num.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
   const animation = useRef(null);
@@ -19,7 +20,6 @@ function App() {
   })
 
   useEffect( () => {
-    animation.current.restart()
     console.log("animation starting")
     console.log("animation",animation.current)
     console.log("animation ending?")
@@ -56,33 +56,46 @@ function App() {
     return years
   } 
 
-  let onDateChanged = (date) => { setBirthDate(date) }
+  let onDateChanged = (date) => { 
+    setBirthDate(date)
+    if (!datePicked) { setDatepicked(true) }
+  }
   return (
     <div className="App">
-      <h1>Life Clock</h1>
-      <h2> You can't know for certain when you will die. </h2>
-      <h3> But I can show you for how long you've lived. </h3>
-      <button onClick={()=>animation.current.restart()}>Restart</button>
+      <Anime 
+        opacity={[0, 1]}
+        delay={reactAanime.stagger(100)}
+        duration={(e, i) => i < 3 ? 1000 : 10}
+        easing='linear'
+      >
+        <h1>Life Clock</h1>
+        <h2> You can't know for certain when you will die. </h2>
+        <h3> But I can show you for how long you've lived. </h3>
 
-      <p>When were you born? </p>
-      <DatePicker onDateChanged={onDateChanged} />
+        <p>When were you born? </p>
+        <DatePicker onDateChanged={onDateChanged} />
+      </Anime>
 
-      <span className='clocks'>
-        <p className='seconds'>How many seconds? {getSecondsAlive()} </p>
-        <p className='minutes'>How many minutes? {getMinutesAlive()} </p>
-        <p className='hours'>How many hours? {getHoursAlive()} </p>
-        <p className='days'>How many days? {getDaysAlive()} </p>
-        <p className='weeks'>How many weeks? {getWeeksAlive()} </p>
-        <p className='months'>How many months? {getMonthsAlive(new Date(), birthDate)} </p>
-        <p className='years'>How many years? {getYearsAlive()}</p>
-        <p className='since'>Have passed since that day? </p>
-      </span>
+      {datePicked && <Anime 
+        opacity={[0, 1]}
+        delay={(e, i) => i < 7 ? 500: 3000}
+        duration={(e, i) => i < 7 ? 500: 3000}
+        easing='easeInCubic'
+      >
+          <p className='seconds'>How many seconds? {getSecondsAlive()} </p>
+          <p className='minutes'>How many minutes? {getMinutesAlive()} </p>
+          <p className='hours'>How many hours? {getHoursAlive()} </p>
+          <p className='days'>How many days? {getDaysAlive()} </p>
+          <p className='weeks'>How many weeks? {getWeeksAlive()} </p>
+          <p className='months'>How many months? {getMonthsAlive(new Date(), birthDate)} </p>
+          <p className='years'>How many years? {getYearsAlive()}</p>
+          <p className='since'>Have passed since that day? </p>
 
-
-      <p> Think of all the things that have happened in this time. </p>
-      <p> Did things go the way you expected? </p>
-      <p> What will you do next? </p>
-
+          <p> Think of all the things that have happened in this time. </p>
+          <p> Did things go the way you expected? </p>
+          <p> What will you do next? </p>
+      </Anime>}
+      
     </div>
   );
 }
