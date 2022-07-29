@@ -7,19 +7,42 @@ function App() {
   const [datePicked, setDatepicked] = useState(false);
   let formatNum = (num) => num.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
-  let aniamteClocks = () => {
-    anime({
-      targets: '.clocks p',
+  let animateTop = () => { anime({
+      targets: '.top',
+      translateY: [-100,0],
       opacity: [0, 1],
-      loop: true,
-      delay: anime.stagger(500),
-      duration: anime.stagger(1000),
-      easing: 'easeOutBack'
+      delay: anime.stagger(100),
+      duration: anime.stagger(250),
+      easing: 'easeOutQuad'
     })
   }
+  let animateMid = () => { anime({
+      targets: '.mid',
+      translateX: [-150,0],
+      opacity: [0, 1],
+      delay: anime.stagger(100),
+      duration: 750,
+      easing: 'easeOutQuad'
+    })
+  }
+
+  let animateBot = () => { anime({
+      targets: '.mid',
+      translateX: [-150,0],
+      opacity: [0, 1],
+      delay: anime.stagger(100),
+      duration: 750,
+      easing: 'easeOutQuad'
+    })
+  }
+
   useEffect( () => {
-    aniamteClocks()
+    animateTop()
   }, [])
+
+  useEffect( () => {
+    //animateMid()
+  }, [datePicked])
 
   let getSecondsAlive = () => {
     let seconds = (new Date() - birthDate) / 1000
@@ -54,32 +77,37 @@ function App() {
 
   let onDateChanged = (date) => { 
     setBirthDate(date)
+    animateMid()
     if (!datePicked) { setDatepicked(true) }
   }
   return (
     <div className="App">
       
+      <div className='top' >
         <h1>Life Clock</h1>
         <h2> You can't know for certain when you will die. </h2>
         <h3> But I can show you for how long you've lived. </h3>
-        <button onClick={aniamteClocks} ></button>
         <p>When were you born? </p>
         <DatePicker onDateChanged={onDateChanged} />
-        <div className='clocks'>
-          <p className='seconds'>How many seconds? {getSecondsAlive()} </p>
-          <p className='minutes'>How many minutes? {getMinutesAlive()} </p>
-          <p className='hours'>How many hours? {getHoursAlive()} </p>
-          <p className='days'>How many days? {getDaysAlive()} </p>
-          <p className='weeks'>How many weeks? {getWeeksAlive()} </p>
-          <p className='months'>How many months? {getMonthsAlive(new Date(), birthDate)} </p>
-          <p className='years'>How many years? {getYearsAlive()}</p>
-          <p className='since'>Have passed since that day? </p>
-        </div>
-        
+      </div>
+
+      <div className='mid'>
+        <p className='seconds'>How many seconds? {getSecondsAlive()} </p>
+        <p className='minutes'>How many minutes? {getMinutesAlive()} </p>
+        <p className='hours'>How many hours? {getHoursAlive()} </p>
+        <p className='days'>How many days? {getDaysAlive()} </p>
+        <p className='weeks'>How many weeks? {getWeeksAlive()} </p>
+        <p className='months'>How many months? {getMonthsAlive(new Date(), birthDate)} </p>
+        <p className='years'>How many years? {getYearsAlive()}</p>
+        <p className='since'>Have passed since that day? </p>
+      </div>
+
+      <div className='bot'>
         <p> Think of all the things that have happened in this time. </p>
         <p> Did things go the way you expected? </p>
         <p> What will you do next? </p>
-      
+      </div>
+
     </div>
   );
 }
