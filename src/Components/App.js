@@ -2,27 +2,26 @@ import './App.css';
 import React, {useState, useEffect} from "react";
 import DatePicker from './DatePicker/DatePicker';
 import anime from 'animejs';
+import * as ch from './ClockHelpers'
 function App() {
   const [birthDate, setBirthDate] = useState(new Date());
   const [datePicked, setDatepicked] = useState(false);
-  let formatNum = (num) => num.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
-  let animateTop = () => { anime({
-      targets: '.top',
-      translateY: [-100,0],
+  let animateTop = () => { anime.timeline({
+      targets: '.top > *',
+      translateY: [-50,0],
       opacity: [0, 1],
-      delay: anime.stagger(100),
-      duration: anime.stagger(250),
+      delay: anime.stagger(1000),
+      duration: 2000,
       easing: 'easeOutQuad'
     })
   }
   let animateMid = () => { anime({
-      targets: '.mid',
+      targets: '.mid > *',
       translateX: [-150,0],
       opacity: [0, 1],
-      delay: anime.stagger(100),
-      duration: 750,
-      easing: 'easeOutQuad'
+      duration: anime.stagger(750),
+      easing: 'linear'
     })
   }
 
@@ -41,39 +40,8 @@ function App() {
   }, [])
 
   useEffect( () => {
-    //animateMid()
+    if (datePicked) { animateMid() }
   }, [datePicked])
-
-  let getSecondsAlive = () => {
-    let seconds = (new Date() - birthDate) / 1000
-    return formatNum(seconds)
-  } 
-  let getMinutesAlive = () => { 
-    let minutes = (new Date() - birthDate) / (1000 * 60)
-    return formatNum(minutes)
-  } 
-  let getHoursAlive = () => { 
-    let hours = (new Date() - birthDate) / (1000 * 60 * 60) 
-    return formatNum(hours)
-  } 
-  let getDaysAlive = () => { 
-    let days = (new Date() - birthDate) / (1000 * 60 * 60 * 24) 
-    return formatNum(days)
-  } 
-  let getWeeksAlive = () => { 
-    let weeks = (new Date() - birthDate) / (1000 * 60 * 60 * 24 * 7) 
-    return formatNum(weeks)
-
-  } 
-  let getMonthsAlive = (now, birthDate ) => { 
-    let months = (now.getFullYear() - birthDate.getFullYear()) * 12
-    months += (now.getMonth() - birthDate.getMonth())
-    return formatNum(months)
-  } 
-  let getYearsAlive = () => { 
-    let years = (new Date().getFullYear() - birthDate.getFullYear())
-    return years
-  } 
 
   let onDateChanged = (date) => { 
     setBirthDate(date)
@@ -91,18 +59,18 @@ function App() {
         <DatePicker onDateChanged={onDateChanged} />
       </div>
 
-      <div className='mid'>
-        <p className='seconds'>How many seconds? {getSecondsAlive()} </p>
-        <p className='minutes'>How many minutes? {getMinutesAlive()} </p>
-        <p className='hours'>How many hours? {getHoursAlive()} </p>
-        <p className='days'>How many days? {getDaysAlive()} </p>
-        <p className='weeks'>How many weeks? {getWeeksAlive()} </p>
-        <p className='months'>How many months? {getMonthsAlive(new Date(), birthDate)} </p>
-        <p className='years'>How many years? {getYearsAlive()}</p>
-        <p className='since'>Have passed since that day? </p>
-      </div>
+      {datePicked && <div className='mid'>
+        <p className='seconds'>How many seconds? {ch.getSeconds(birthDate)} </p>
+        <p className='minutes'>How many minutes? {ch.getMinutes(birthDate)} </p>
+        <p className='hours'>How many hours? {ch.getHours(birthDate)} </p>
+        <p className='days'>How many days? {ch.getDays(birthDate)} </p>
+        <p className='weeks'>How many weeks? {ch.getWeeks(birthDate)} </p>
+        <p className='months'>How many months? {ch.getMonths(new Date(), birthDate)} </p>
+        <p className='years'>How many years? {ch.getYears(birthDate)}</p>
+      </div>}
 
       <div className='bot'>
+        <p> Have passed since that day? </p>
         <p> Think of all the things that have happened in this time. </p>
         <p> Did things go the way you expected? </p>
         <p> What will you do next? </p>
