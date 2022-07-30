@@ -8,30 +8,38 @@ function App() {
   const [datePicked, setDatepicked] = useState(false);
 
   let animateTop = () => { anime.timeline({
-      targets: '.top > *',
+    })
+    .add({
+      targets: 'h1, h2, h3',
+      translateY: [-50,0],
+      opacity: [0, 1],
+      easing: 'linear',
+      delay: anime.stagger(2000),
+    })
+    .add({
+      targets: 'react-calendar, .top p',
       translateY: [-50,0],
       opacity: [0, 1],
       delay: anime.stagger(1000),
-      duration: 2000,
-      easing: 'easeOutQuad'
-    })
-  }
-  let animateMid = () => { anime({
-      targets: '.mid > *',
-      translateX: [-150,0],
-      opacity: [0, 1],
-      duration: anime.stagger(750),
-      easing: 'linear'
     })
   }
 
-  let animateBot = () => { anime({
-      targets: '.mid',
+  let animateBot = () => { anime.timeline({
+    })
+    .add({
+      duration: anime.stagger(750),
+      delay: anime.stagger(100),
+      targets: '.mid > *',
       translateX: [-150,0],
       opacity: [0, 1],
-      delay: anime.stagger(100),
-      duration: 750,
-      easing: 'easeOutQuad'
+      easing: 'easeOutQuad',
+    })
+    .add({
+      targets: '.bot > *',
+      translateY: [-25,0],
+      opacity: [0, 1],
+      delay: anime.stagger(5000),
+      easing: 'linear'
     })
   }
 
@@ -40,12 +48,12 @@ function App() {
   }, [])
 
   useEffect( () => {
-    if (datePicked) { animateMid() }
+    if (datePicked) { animateBot() }
   }, [datePicked])
 
   let onDateChanged = (date) => { 
     setBirthDate(date)
-    animateMid()
+    animateBot()
     if (!datePicked) { setDatepicked(true) }
   }
   return (
@@ -56,7 +64,7 @@ function App() {
         <h2> You can't know for certain when you will die. </h2>
         <h3> But I can show you for how long you've lived. </h3>
         <p>When were you born? </p>
-        <DatePicker onDateChanged={onDateChanged} />
+        <DatePicker className="date-picker" onDateChanged={onDateChanged} />
       </div>
 
       {datePicked && <div className='mid'>
@@ -69,12 +77,12 @@ function App() {
         <p className='years'>How many years? {ch.getYears(birthDate)}</p>
       </div>}
 
-      <div className='bot'>
+      {datePicked && <div className='bot'>
         <p> Have passed since that day? </p>
         <p> Think of all the things that have happened in this time. </p>
         <p> Did things go the way you expected? </p>
         <p> What will you do next? </p>
-      </div>
+      </div>}
 
     </div>
   );
