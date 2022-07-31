@@ -8,27 +8,27 @@ function App() {
   const [datePicked, setDatepicked] = useState(false);
 
   let animateTop = () => { anime.timeline({
+      easing: 'linear',
     })
     .add({
       targets: 'h1, h2, h3',
       translateY: [-50,0],
       opacity: [0, 1],
-      easing: 'linear',
-      delay: anime.stagger(2000),
+      delay: anime.stagger(2500),
     })
     .add({
-      targets: 'react-calendar, .top p',
-      translateY: [-50,0],
+      targets: '.top p, .top .date-picker',
       opacity: [0, 1],
-      delay: anime.stagger(1000),
+      duration: 750,
+      delay: 1500,
     })
   }
 
   let animateBot = () => { anime.timeline({
     })
     .add({
-      duration: anime.stagger(750),
-      delay: anime.stagger(100),
+      duration: anime.stagger(250),
+      delay: anime.stagger(250),
       targets: '.mid > *',
       translateX: [-150,0],
       opacity: [0, 1],
@@ -39,7 +39,7 @@ function App() {
       translateY: [-25,0],
       opacity: [0, 1],
       delay: anime.stagger(5000),
-      easing: 'linear'
+      easing: 'easeOutQuad'
     })
   }
 
@@ -64,7 +64,7 @@ function App() {
         <h2> You can't know for certain when you will die. </h2>
         <h3> But I can show you for how long you've lived. </h3>
         <p>When were you born? </p>
-        <DatePicker className="date-picker" onDateChanged={onDateChanged} />
+        <DatePicker onDateChanged={onDateChanged} />
       </div>
 
       {datePicked && <div className='mid'>

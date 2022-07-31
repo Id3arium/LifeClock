@@ -4,6 +4,8 @@ import "./DatePicker.css"
 
 export default function DatePicker(props){
     return (
-        <Calendar className="centered" onClickDay={e => props.onDateChanged(e)} />
+        <div className="date-picker">
+            <Calendar className="centered" onClickDay={e => props.onDateChanged(e)} />
+        </div>
     )
 }
