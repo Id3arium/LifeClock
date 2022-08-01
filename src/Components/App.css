@@ -7,3 +7,8 @@
 .App-link {
   color: #61dafb;
 }
+
+.mid{
+  overflow:auto; 
+  margin: 0 10%;
+}

@@ -7,18 +7,15 @@ import * as ch from './ClockHelpers'
 function App() {
   const [birthDate, setBirthDate] = useState(new Date());
   const [datePicked, setDatepicked] = useState(false);
-  const [time, setTime] = useState(Date.now());
+  const [time, setTime] = useState(new Date());
 
   useEffect(() => {
-    const interval = setInterval(() => setTime(Date.now()), 1000);
     animateTop()
+    const interval = setInterval(() => setTime(new Date()), 10);
     return () => {
       clearInterval(interval);
     };
   }, []);
-
-  useEffect( () => {
-  }, [])
 
   useEffect( () => {
     if (datePicked) { animateBot() }
@@ -31,13 +28,13 @@ function App() {
       targets: 'h1, h2, h3',
       translateY: [-50,0],
       opacity: [0, 1],
-      delay: anime.stagger(2500),
+      delay: anime.stagger(1000),
     })
     .add({
       targets: '.top p, .date-picker',
       opacity: [0, 1],
       duration: 750,
-      delay: 1500,
+      delay: 1250,
     })
   }
 
@@ -46,7 +43,7 @@ function App() {
     .add({
       duration: anime.stagger(250),
       delay: anime.stagger(250),
-      targets: '.mid > *',
+      targets: '.mid *',
       translateX: [-150,0],
       opacity: [0, 1],
       easing: 'easeOutQuad',
@@ -59,7 +56,6 @@ function App() {
       easing: 'easeOutQuad'
     })
   }
-
   
 
   let onDateChanged = (date) => { 

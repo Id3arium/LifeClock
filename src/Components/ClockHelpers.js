@@ -1,23 +1,23 @@
-export let formatNum = (num) => num.toFixed(1).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+export let formatNum = (num, fixed=1) => num.toFixed(fixed).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
-export let getSeconds = (birthDate) => {
-    let seconds = (new Date() - birthDate) / 1000
-    return formatNum(seconds)
+export let getSeconds = (now, birthDate) => {
+    let seconds = (now - birthDate) / 1000
+    return formatNum(seconds,2)
 } 
-export let getMinutes = (birthDate) => { 
-    let minutes = (new Date() - birthDate) / (1000 * 60)
+export let getMinutes = (now, birthDate) => { 
+    let minutes = (now - birthDate) / (1000 * 60)
     return formatNum(minutes)
 } 
-export let getHours = (birthDate) => { 
-    let hours = (new Date() - birthDate) / (1000 * 60 * 60) 
+export let getHours = (now, birthDate) => { 
+    let hours = (now - birthDate) / (1000 * 60 * 60) 
     return formatNum(hours)
 } 
-export let getDays = (birthDate) => { 
-    let days = (new Date() - birthDate) / (1000 * 60 * 60 * 24) 
+export let getDays = (now, birthDate) => { 
+    let days = (now - birthDate) / (1000 * 60 * 60 * 24) 
     return formatNum(days)
 } 
-export let getWeeks = (birthDate) => { 
-    let weeks = (new Date() - birthDate) / (1000 * 60 * 60 * 24 * 7) 
+export let getWeeks = (now, birthDate) => { 
+    let weeks = (now - birthDate) / (1000 * 60 * 60 * 24 * 7) 
     return formatNum(weeks)
 
 } 

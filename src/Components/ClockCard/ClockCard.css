@@ -1,10 +1,10 @@
 
 .clock-card {
-    background: #fcfcfc;
+    background: #ffb8111c;
     border-radius: 7px;
     box-shadow: 0 2px 5px #ccc;
     padding: 10px;
-    width: 100px;
+    width: 150px;
     margin: 10px;
     float: left;
   }
