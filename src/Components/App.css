@@ -9,6 +9,8 @@
 }
 
 .mid{
-  overflow:auto; 
-  margin: 0 10%;
+  overflow: auto; 
+  margin: 15px 5%;
+  display: flex;
+  justify-content: center;
 }

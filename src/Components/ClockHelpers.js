@@ -1,8 +1,8 @@
-export let formatNum = (num, fixed=1) => num.toFixed(fixed).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+export let formatNum = (num, fixed=2) => num.toFixed(fixed).replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 
 export let getSeconds = (now, birthDate) => {
     let seconds = (now - birthDate) / 1000
-    return formatNum(seconds,2)
+    return formatNum(seconds)
 } 
 export let getMinutes = (now, birthDate) => { 
     let minutes = (now - birthDate) / (1000 * 60)
@@ -24,10 +24,10 @@ export let getWeeks = (now, birthDate) => {
 export let getMonths = (now, birthDate ) => { 
     let months = (now.getFullYear() - birthDate.getFullYear()) * 12
     months += (now.getMonth() - birthDate.getMonth())
-    return formatNum(months)
+    return months
 } 
-export let getYears = (birthDate) => { 
-    let years = (new Date().getFullYear() - birthDate.getFullYear())
+export let getYears = (now, birthDate) => { 
+    let years = (now.getFullYear() - birthDate.getFullYear())
     return years
 } 
 

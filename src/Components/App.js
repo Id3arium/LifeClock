@@ -75,18 +75,18 @@ function App() {
       </div>
 
       {datePicked && <div className='mid'>
-        <ClockCard units={"seconds"} timePassed={ch.getSeconds(time, birthDate)}/>
-        <ClockCard units={"minutes"} timePassed={ch.getMinutes(time, birthDate)}/>
-        <ClockCard units={"hours"} timePassed={ch.getHours(time, birthDate)}/>
-        <ClockCard units={"days"} timePassed={ch.getDays(time, birthDate)}/>
-        <ClockCard units={"weeks"} timePassed={ch.getWeeks(time, birthDate)}/>
-        <ClockCard units={"months"} timePassed={ch.getMonths(time, birthDate)}/>
-        <ClockCard units={"years"} timePassed={ch.getYears(time, birthDate)}/>
+        <ClockCard units={"Seconds"} timePassed={ch.getSeconds(time, birthDate)}/>
+        <ClockCard units={"Minutes"} timePassed={ch.getMinutes(time, birthDate)}/>
+        <ClockCard units={"Hours"} timePassed={ch.getHours(time, birthDate)}/>
+        <ClockCard units={"Days"} timePassed={ch.getDays(time, birthDate)}/>
+        <ClockCard units={"Weeks"} timePassed={ch.getWeeks(time, birthDate)}/>
+        <ClockCard units={"Months"} timePassed={ch.getMonths(time, birthDate)}/>
+        <ClockCard units={"Years"} timePassed={ch.getYears(time, birthDate)}/>
       </div>}
 
       {datePicked && <div className='bot'>
-        <p> Have passed since that day? </p>
-        <p> Think of all the things that have happened in this time. </p>
+        <p> Have passed since that day. </p>
+        <p> Think of everything you experienced in this time. </p>
         <p> Did things go the way you expected? </p>
         <p> What will you do next? </p>
       </div>}
