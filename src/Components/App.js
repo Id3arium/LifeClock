@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useState, useEffect, useLayoutEffect} from "react";
+import React, {useState, useEffect, useLayoutEffect, useRef} from "react";
 import DatePicker from './DatePicker/DatePicker';
 import anime from 'animejs';
 import ClockCard from './ClockCard/ClockCard';
@@ -7,9 +7,10 @@ import * as ch from './ClockHelpers'
 function App() {
   const [birthDate, setBirthDate] = useState(undefined);
   const [time, setTime] = useState(new Date());
+  const footerRef = useRef()
 
   useEffect(() => {
-    //let birthDate = JSON.parse(localStorage.getItem('birthDate'))
+    //const birthDate = localStorage.getItem('birthDate')
     //setBirthDate( birthDate ? birthDate : undefined )
     if (!birthDate) { animateIntro() }
     const interval = setInterval(() => setTime(new Date()), 10);
@@ -19,26 +20,29 @@ function App() {
   }, []);
 
   useLayoutEffect( () => {
-    if (birthDate) { 
-      //localStorage.setItem('birthDate', JSON.stringify(birthDate))
-      animateContent() 
-    }
+    localStorage.setItem('birthDate', JSON.stringify(birthDate))
+    animateContent() 
   }, [birthDate])
+  
+  const scrollToFooter = () => {
+    console.log("scrolling to bottom")
+    footerRef.current?.scrollIntoView({ block: "end", behavior: "smooth" })
+  }
 
   let animateIntro = () => { anime.timeline({
       easing: 'linear',
     })
     .add({
-      targets: 'h1, h2, h3',
+      targets: 'h2, h3',
       translateY: [-50,0],
       opacity: [0, 1],
-      delay: anime.stagger(2500),
+      delay: anime.stagger(2500, {start:1500}),
     })
     .add({
       targets: '.header > p, .date-picker',
       opacity: [0, 1],
       duration: 750,
-      delay: 1250,
+      delay: 1500,
     })
   }
 
@@ -46,8 +50,8 @@ function App() {
     })
     .add({
       targets: '.cards-wrapper > *',
-      duration: anime.stagger(75, {from: 'center', start:250, easing: 'linear'}),
-      delay: anime.stagger(75, {from: 'center' , start:250, easing: 'linear'}),
+      duration: anime.stagger(100, {from: 'center', start:250, easing: 'linear'}),
+      delay: anime.stagger(100, {from: 'center' , start:250, easing: 'linear'}),
       translateX: [anime.stagger([500,-500]),0],
       opacity: [0, 1],
       easing: 'easeOutQuad',
@@ -56,8 +60,11 @@ function App() {
       targets: '.footer > *',
       translateY: [-25,0],
       opacity: [0, 1],
-      delay: anime.stagger(5000, {start:10000}),
-      easing: 'easeOutQuad'
+      delay: anime.stagger(5000, {start:5000}),
+      easing: 'easeOutQuad',
+      changeBegin: (anim) => {
+        scrollToFooter()
+      }
     })
   }
 
@@ -66,7 +73,7 @@ function App() {
     animateContent()
   }
   return (
-    <div className="App">
+    <div className="App" >
       
       <div className='header' >
         <h1>Life Clock</h1>
@@ -86,7 +93,7 @@ function App() {
         <ClockCard units={"Years"} timePassed={ch.getYears(time, birthDate)}/>
       </div>}
 
-      {birthDate && <div className='footer'>
+      {birthDate && <div className='footer' ref={footerRef}>
         <p> Have passed since that day. </p>
         <p> Think of everything you experienced in this time. </p>
         <p> Did things go the way you expected? </p>
