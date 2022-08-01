@@ -1,50 +1,54 @@
 import './App.css';
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useLayoutEffect} from "react";
 import DatePicker from './DatePicker/DatePicker';
 import anime from 'animejs';
 import ClockCard from './ClockCard/ClockCard';
 import * as ch from './ClockHelpers'
 function App() {
-  const [birthDate, setBirthDate] = useState(new Date());
-  const [datePicked, setDatepicked] = useState(false);
+  const [birthDate, setBirthDate] = useState(undefined);
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
-    animateTop()
+    //let birthDate = JSON.parse(localStorage.getItem('birthDate'))
+    //setBirthDate( birthDate ? birthDate : undefined )
+    if (!birthDate) { animateIntro() }
     const interval = setInterval(() => setTime(new Date()), 10);
     return () => {
       clearInterval(interval);
     };
   }, []);
 
-  useEffect( () => {
-    if (datePicked) { animateBot() }
-  }, [datePicked])
+  useLayoutEffect( () => {
+    if (birthDate) { 
+      //localStorage.setItem('birthDate', JSON.stringify(birthDate))
+      animateContent() 
+    }
+  }, [birthDate])
 
-  let animateTop = () => { anime.timeline({
+  let animateIntro = () => { anime.timeline({
       easing: 'linear',
     })
     .add({
       targets: 'h1, h2, h3',
       translateY: [-50,0],
       opacity: [0, 1],
-      delay: anime.stagger(250),
+      delay: anime.stagger(2500),
     })
     .add({
       targets: '.header > p, .date-picker',
       opacity: [0, 1],
       duration: 750,
-      delay: 125,
+      delay: 1250,
     })
   }
 
-  let animateBot = () => { anime.timeline({
+  let animateContent = () => { anime.timeline({
     })
     .add({
-      duration: anime.stagger(50, {from: 'center', start:250, easing: 'linear'}),
-      delay: anime.stagger(50, {from: 'center' , start:250, easing: 'linear'}),
       targets: '.cards-wrapper > *',
-      translateX: [anime.stagger([150,-150]),0],
+      duration: anime.stagger(75, {from: 'center', start:250, easing: 'linear'}),
+      delay: anime.stagger(75, {from: 'center' , start:250, easing: 'linear'}),
+      translateX: [anime.stagger([500,-500]),0],
       opacity: [0, 1],
       easing: 'easeOutQuad',
     })
@@ -52,16 +56,14 @@ function App() {
       targets: '.footer > *',
       translateY: [-25,0],
       opacity: [0, 1],
-      delay: anime.stagger(5000, {start:5000}),
+      delay: anime.stagger(5000, {start:10000}),
       easing: 'easeOutQuad'
     })
   }
-  
 
   let onDateChanged = (date) => { 
     setBirthDate(date)
-    animateBot()
-    if (!datePicked) { setDatepicked(true) }
+    animateContent()
   }
   return (
     <div className="App">
@@ -74,7 +76,7 @@ function App() {
         <DatePicker onDateChanged={onDateChanged} />
       </div>
 
-      {datePicked && <div className='cards-wrapper'>
+      {birthDate && <div className='cards-wrapper'>
         <ClockCard units={"Seconds"} timePassed={ch.getSeconds(time, birthDate)}/>
         <ClockCard units={"Minutes"} timePassed={ch.getMinutes(time, birthDate)}/>
         <ClockCard units={"Hours"} timePassed={ch.getHours(time, birthDate)}/>
@@ -84,7 +86,7 @@ function App() {
         <ClockCard units={"Years"} timePassed={ch.getYears(time, birthDate)}/>
       </div>}
 
-      {datePicked && <div className='footer'>
+      {birthDate && <div className='footer'>
         <p> Have passed since that day. </p>
         <p> Think of everything you experienced in this time. </p>
         <p> Did things go the way you expected? </p>
