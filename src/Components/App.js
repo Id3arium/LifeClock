@@ -2,6 +2,7 @@ import './App.css';
 import React, {useState, useEffect} from "react";
 import DatePicker from './DatePicker/DatePicker';
 import anime from 'animejs';
+import ClockCard from './ClockCard/ClockCard';
 import * as ch from './ClockHelpers'
 function App() {
   const [birthDate, setBirthDate] = useState(new Date());
@@ -78,13 +79,13 @@ function App() {
       </div>
 
       {datePicked && <div className='mid'>
-        <p >How many seconds? {ch.getSeconds(time, birthDate)} </p>
-        <p >How many minutes? {ch.getMinutes(time, birthDate)} </p>
-        <p >How many hours? {ch.getHours(time, birthDate)} </p>
-        <p >How many days? {ch.getDays(time, birthDate)} </p>
-        <p >How many weeks? {ch.getWeeks(time, birthDate)} </p>
-        <p >How many months? {ch.getMonths(time, birthDate)} </p>
-        <p >How many years? {ch.getYears(time, birthDate)}</p>
+        <ClockCard units={"seconds"} timePassed={ch.getSeconds(time, birthDate)}/>
+        <ClockCard units={"minutes"} timePassed={ch.getMinutes(time, birthDate)}/>
+        <ClockCard units={"hours"} timePassed={ch.getHours(time, birthDate)}/>
+        <ClockCard units={"days"} timePassed={ch.getDays(time, birthDate)}/>
+        <ClockCard units={"weeks"} timePassed={ch.getWeeks(time, birthDate)}/>
+        <ClockCard units={"months"} timePassed={ch.getMonths(time, birthDate)}/>
+        <ClockCard units={"years"} timePassed={ch.getYears(time, birthDate)}/>
       </div>}
 
       {datePicked && <div className='bot'>
