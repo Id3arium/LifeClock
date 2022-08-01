@@ -6,6 +6,22 @@ import * as ch from './ClockHelpers'
 function App() {
   const [birthDate, setBirthDate] = useState(new Date());
   const [datePicked, setDatepicked] = useState(false);
+  const [time, setTime] = useState(Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => setTime(Date.now()), 1000);
+    animateTop()
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  useEffect( () => {
+  }, [])
+
+  useEffect( () => {
+    if (datePicked) { animateBot() }
+  }, [datePicked])
 
   let animateTop = () => { anime.timeline({
       easing: 'linear',
@@ -17,7 +33,7 @@ function App() {
       delay: anime.stagger(2500),
     })
     .add({
-      targets: '.top p, .top .date-picker',
+      targets: '.top p, .date-picker',
       opacity: [0, 1],
       duration: 750,
       delay: 1500,
@@ -43,13 +59,7 @@ function App() {
     })
   }
 
-  useEffect( () => {
-    animateTop()
-  }, [])
-
-  useEffect( () => {
-    if (datePicked) { animateBot() }
-  }, [datePicked])
+  
 
   let onDateChanged = (date) => { 
     setBirthDate(date)
@@ -68,13 +78,13 @@ function App() {
       </div>
 
       {datePicked && <div className='mid'>
-        <p className='seconds'>How many seconds? {ch.getSeconds(birthDate)} </p>
-        <p className='minutes'>How many minutes? {ch.getMinutes(birthDate)} </p>
-        <p className='hours'>How many hours? {ch.getHours(birthDate)} </p>
-        <p className='days'>How many days? {ch.getDays(birthDate)} </p>
-        <p className='weeks'>How many weeks? {ch.getWeeks(birthDate)} </p>
-        <p className='months'>How many months? {ch.getMonths(new Date(), birthDate)} </p>
-        <p className='years'>How many years? {ch.getYears(birthDate)}</p>
+        <p >How many seconds? {ch.getSeconds(time, birthDate)} </p>
+        <p >How many minutes? {ch.getMinutes(time, birthDate)} </p>
+        <p >How many hours? {ch.getHours(time, birthDate)} </p>
+        <p >How many days? {ch.getDays(time, birthDate)} </p>
+        <p >How many weeks? {ch.getWeeks(time, birthDate)} </p>
+        <p >How many months? {ch.getMonths(time, birthDate)} </p>
+        <p >How many years? {ch.getYears(time, birthDate)}</p>
       </div>}
 
       {datePicked && <div className='bot'>
