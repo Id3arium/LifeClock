@@ -28,31 +28,31 @@ function App() {
       targets: 'h1, h2, h3',
       translateY: [-50,0],
       opacity: [0, 1],
-      delay: anime.stagger(1000),
+      delay: anime.stagger(250),
     })
     .add({
-      targets: '.top p, .date-picker',
+      targets: '.header > p, .date-picker',
       opacity: [0, 1],
       duration: 750,
-      delay: 1250,
+      delay: 125,
     })
   }
 
   let animateBot = () => { anime.timeline({
     })
     .add({
-      duration: anime.stagger(250),
-      delay: anime.stagger(250),
-      targets: '.mid *',
-      translateX: [-150,0],
+      duration: anime.stagger(50, {from: 'center', start:250, easing: 'linear'}),
+      delay: anime.stagger(50, {from: 'center' , start:250, easing: 'linear'}),
+      targets: '.cards-wrapper > *',
+      translateX: [anime.stagger([150,-150]),0],
       opacity: [0, 1],
       easing: 'easeOutQuad',
     })
     .add({
-      targets: '.bot > *',
+      targets: '.footer > *',
       translateY: [-25,0],
       opacity: [0, 1],
-      delay: anime.stagger(5000),
+      delay: anime.stagger(5000, {start:5000}),
       easing: 'easeOutQuad'
     })
   }
@@ -66,7 +66,7 @@ function App() {
   return (
     <div className="App">
       
-      <div className='top' >
+      <div className='header' >
         <h1>Life Clock</h1>
         <h2> You can't know for certain when you will die. </h2>
         <h3> But I can show you for how long you've lived. </h3>
@@ -74,7 +74,7 @@ function App() {
         <DatePicker onDateChanged={onDateChanged} />
       </div>
 
-      {datePicked && <div className='mid'>
+      {datePicked && <div className='cards-wrapper'>
         <ClockCard units={"Seconds"} timePassed={ch.getSeconds(time, birthDate)}/>
         <ClockCard units={"Minutes"} timePassed={ch.getMinutes(time, birthDate)}/>
         <ClockCard units={"Hours"} timePassed={ch.getHours(time, birthDate)}/>
@@ -84,7 +84,7 @@ function App() {
         <ClockCard units={"Years"} timePassed={ch.getYears(time, birthDate)}/>
       </div>}
 
-      {datePicked && <div className='bot'>
+      {datePicked && <div className='footer'>
         <p> Have passed since that day. </p>
         <p> Think of everything you experienced in this time. </p>
         <p> Did things go the way you expected? </p>
