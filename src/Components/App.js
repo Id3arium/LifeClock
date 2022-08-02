@@ -10,7 +10,7 @@ function App() {
   const footerRef = useRef()
 
   useEffect(() => {
-    //const birthDate = localStorage.getItem('birthDate')
+    const birthDate = localStorage.getItem('birthDate')
     //setBirthDate( birthDate ? birthDate : undefined )
     if (!birthDate) { animateIntro() }
     const interval = setInterval(() => setTime(new Date()), 10);
@@ -20,8 +20,28 @@ function App() {
   }, []);
 
   useLayoutEffect( () => {
-    localStorage.setItem('birthDate', JSON.stringify(birthDate))
-    animateContent() 
+    //localStorage.setItem('birthDate', JSON.stringify(birthDate))
+    if (birthDate) { 
+      anime.timeline({  })
+      .add({
+        targets: '.cards-wrapper > *',
+        duration: anime.stagger(100, {from: 'center', start:250, easing: 'linear'}),
+        delay: anime.stagger(100, {from: 'center' , start:250, easing: 'linear'}),
+        translateX: [anime.stagger([500,-500]),0],
+        opacity: [0, 1],
+        easing: 'easeOutQuad',
+      })
+      .add({
+        targets: '.footer > *',
+        translateY: [-25,0],
+        opacity: [0, 1],
+        delay: anime.stagger(5000, {start:5000}),
+        easing: 'easeOutQuad',
+        changeBegin: (anim) => {
+          scrollToFooter()
+        }
+      })
+    } 
   }, [birthDate])
   
   const scrollToFooter = () => {
@@ -46,31 +66,8 @@ function App() {
     })
   }
 
-  let animateContent = () => { anime.timeline({
-    })
-    .add({
-      targets: '.cards-wrapper > *',
-      duration: anime.stagger(100, {from: 'center', start:250, easing: 'linear'}),
-      delay: anime.stagger(100, {from: 'center' , start:250, easing: 'linear'}),
-      translateX: [anime.stagger([500,-500]),0],
-      opacity: [0, 1],
-      easing: 'easeOutQuad',
-    })
-    .add({
-      targets: '.footer > *',
-      translateY: [-25,0],
-      opacity: [0, 1],
-      delay: anime.stagger(5000, {start:5000}),
-      easing: 'easeOutQuad',
-      changeBegin: (anim) => {
-        scrollToFooter()
-      }
-    })
-  }
-
   let onDateChanged = (date) => { 
     setBirthDate(date)
-    animateContent()
   }
   return (
     <div className="App" >
