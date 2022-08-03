@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/LifeClock/static/css/main.02b59914.css",
+    "main.js": "/LifeClock/static/js/main.9e5bbb18.js",
+    "static/js/787.a5b4656b.chunk.js": "/LifeClock/static/js/787.a5b4656b.chunk.js",
+    "index.html": "/LifeClock/index.html",
+    "main.02b59914.css.map": "/LifeClock/static/css/main.02b59914.css.map",
+    "main.9e5bbb18.js.map": "/LifeClock/static/js/main.9e5bbb18.js.map",
+    "787.a5b4656b.chunk.js.map": "/LifeClock/static/js/787.a5b4656b.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.02b59914.css",
+    "static/js/main.9e5bbb18.js"
+  ]
+}
