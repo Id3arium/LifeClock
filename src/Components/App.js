@@ -35,7 +35,7 @@ function App() {
         targets: '.footer > *',
         translateY: [-25,0],
         opacity: [0, 1],
-        delay: anime.stagger(5000, {start:5000}),
+        delay: anime.stagger(3500, {start:10000}),
         easing: 'easeOutQuad',
         changeBegin: (anim) => {
           scrollToFooter()
