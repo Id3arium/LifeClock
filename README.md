@@ -6,7 +6,7 @@
 
 How many seconds, how many minutes, how many hours, how many days, how many weeks, how many months, how many years have passed since you were born? 
 
-Think of all the things that have happened in this time. 
+Think of everything you've experienced in this time. 
 
 Did things go the way you expected?
 
