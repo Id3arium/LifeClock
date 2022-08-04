@@ -75,7 +75,7 @@ function App() {
       <div className='header' >
         <h1>Life Clock</h1>
         <h2> You can't know for certain when you will die. </h2>
-        <h3> But I can show you for how long you've lived. </h3>
+        <h3> But you can cetainly know for how long you've lived. </h3>
         <p>When were you born? </p>
         <DatePicker onDateChanged={onDateChanged} />
       </div>
@@ -92,7 +92,7 @@ function App() {
 
       {birthDate && <div className='footer' ref={footerRef}>
         <p> Have passed since that day. </p>
-        <p> Think of everything you experienced in this time. </p>
+        <p> Think of everything you've experienced in this time. </p>
         <p> Did things go the way you expected? </p>
         <p> What will you do next? </p>
       </div>}
