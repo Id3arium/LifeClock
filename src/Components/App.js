@@ -1,74 +1,45 @@
 import './App.css';
 import React, {useState, useEffect, useLayoutEffect, useRef} from "react";
 import DatePicker from './DatePicker/DatePicker';
-import anime from 'animejs';
 import ClockCard from './ClockCard/ClockCard';
 import * as ch from './ClockHelpers'
+import {animateIntro, animateContent} from "./Animations"
+
 function App() {
   const [birthDate, setBirthDate] = useState(undefined);
   const [time, setTime] = useState(new Date());
   const footerRef = useRef()
+  
+  let scrollToElement = (elementRef) => {
+    elementRef.current?.scrollIntoView({ block: "end", behavior: "smooth" })
+  }
 
+  const bDay = JSON.parse(localStorage.getItem('birthDate'))
+  if (!bDay) { 
+    let introAnimation = animateIntro() 
+    introAnimation.play()
+  } else {
+    let contentAnimation = animateContent(scrollToElement, footerRef)
+  }
+
+  let onDateChanged = (date) => { 
+    localStorage.setItem('birthDate', JSON.stringify(date))
+    setBirthDate(date)
+  }
+  
   useEffect(() => {
-    const birthDate = localStorage.getItem('birthDate')
-    //setBirthDate( birthDate ? birthDate : undefined )
-    if (!birthDate) { animateIntro() }
     const interval = setInterval(() => setTime(new Date()), 10);
+    console.log("bDay",bDay)
+
     return () => {
       clearInterval(interval);
     };
   }, []);
 
   useLayoutEffect( () => {
-    //localStorage.setItem('birthDate', JSON.stringify(birthDate))
-    if (birthDate) { 
-      anime.timeline({  })
-      .add({
-        targets: '.cards-wrapper > *',
-        duration: anime.stagger(100, {from: 'center', start:250, easing: 'linear'}),
-        delay: anime.stagger(100, {from: 'center' , start:250, easing: 'linear'}),
-        translateX: [anime.stagger([500,-500]),0],
-        opacity: [0, 1],
-        easing: 'easeOutQuad',
-      })
-      .add({
-        targets: '.footer > *',
-        translateY: [-25,0],
-        opacity: [0, 1],
-        delay: anime.stagger(3500, {start:10000}),
-        easing: 'easeOutQuad',
-        changeBegin: (anim) => {
-          scrollToFooter()
-        }
-      })
-    } 
+    if (birthDate) animateContent()
   }, [birthDate])
-  
-  const scrollToFooter = () => {
-    console.log("scrolling to bottom")
-    footerRef.current?.scrollIntoView({ block: "end", behavior: "smooth" })
-  }
 
-  let animateIntro = () => { anime.timeline({
-      easing: 'linear',
-    })
-    .add({
-      targets: 'h2, h3',
-      translateY: [-50,0],
-      opacity: [0, 1],
-      delay: anime.stagger(2500, {start:1500}),
-    })
-    .add({
-      targets: '.header > p, .date-picker',
-      opacity: [0, 1],
-      duration: 750,
-      delay: 1500,
-    })
-  }
-
-  let onDateChanged = (date) => { 
-    setBirthDate(date)
-  }
   return (
     <div className="App" >
       
@@ -77,7 +48,9 @@ function App() {
         <h2> You can't know for certain when you will die. </h2>
         <h3> But you can certainly know for how long you've lived. </h3>
         <p>When were you born? </p>
-        <DatePicker onDateChanged={onDateChanged} />
+        <DatePicker 
+          onDateChanged={onDateChanged} 
+        />
       </div>
 
       {birthDate && <div className='cards-wrapper'>
