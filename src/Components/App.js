@@ -5,9 +5,21 @@ import anime from 'animejs';
 import ClockCard from './ClockCard/ClockCard';
 import * as ch from './ClockHelpers'
 
+const useLocalStorage = (storageKey, fallbackState) => {
+  const [value, setValue] = React.useState(
+    JSON.parse(localStorage.getItem(storageKey)) ?? fallbackState
+  );
+
+  React.useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify(value));
+  }, [value, storageKey]);
+
+  return [value, setValue];
+};
+
 function App() {
-  const [birthDate, setBirthDate] = useState(undefined);
-  const [time, setTime] = useState(new Date());
+  const [birthDate, setBirthDate] = useLocalStorage('birthDate', new Date());
+  const [currTime, setCurrTime] = useState(new Date());
   const footerRef = useRef()
   
   const bDay = JSON.parse(localStorage.getItem('birthDate'))
@@ -34,7 +46,7 @@ function App() {
 }
   
   useEffect(() => {
-    const interval = setInterval(() => setTime(new Date()), 10);
+    const interval = setInterval(() => setCurrTime(new Date()), 10);
     console.log("bDay",bDay)
     if (!bDay) { 
       animateIntro() 
@@ -91,13 +103,13 @@ function App() {
       </div>
 
       {birthDate && <div className='cards-wrapper'>
-        <ClockCard units={"Seconds"} timePassed={ch.getSeconds(time, birthDate)}/>
-        <ClockCard units={"Minutes"} timePassed={ch.getMinutes(time, birthDate)}/>
-        <ClockCard units={"Hours"} timePassed={ch.getHours(time, birthDate)}/>
-        <ClockCard units={"Days"} timePassed={ch.getDays(time, birthDate)}/>
-        <ClockCard units={"Weeks"} timePassed={ch.getWeeks(time, birthDate)}/>
-        <ClockCard units={"Months"} timePassed={ch.getMonths(time, birthDate)}/>
-        <ClockCard units={"Years"} timePassed={ch.getYears(time, birthDate)}/>
+        <ClockCard units={"Seconds"} timePassed={ch.getSeconds(currTime, birthDate)}/>
+        <ClockCard units={"Minutes"} timePassed={ch.getMinutes(currTime, birthDate)}/>
+        <ClockCard units={"Hours"} timePassed={ch.getHours(currTime, birthDate)}/>
+        <ClockCard units={"Days"} timePassed={ch.getDays(currTime, birthDate)}/>
+        <ClockCard units={"Weeks"} timePassed={ch.getWeeks(currTime, birthDate)}/>
+        <ClockCard units={"Months"} timePassed={ch.getMonths(currTime, birthDate)}/>
+        <ClockCard units={"Years"} timePassed={ch.getYears(currTime, birthDate)}/>
       </div>}
 
       {birthDate && <div className='footer' ref={footerRef}>
