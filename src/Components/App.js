@@ -7,7 +7,7 @@ import * as ch from './ClockHelpers'
 
 const useLocalStorage = (storageKey, fallbackState) => {
   const [value, setValue] = React.useState(
-    JSON.parse(localStorage.getItem(storageKey)) ?? fallbackState
+    new Date(JSON.parse(localStorage.getItem(storageKey))) ?? fallbackState
   );
 
   React.useEffect(() => {
@@ -21,49 +21,24 @@ function App() {
   const [birthDate, setBirthDate] = useLocalStorage('birthDate', new Date());
   const [currTime, setCurrTime] = useState(new Date());
   const footerRef = useRef()
-  
-  let onDateChanged = (date) => { 
-    setBirthDate(date)
-  }
+
+  let isValidBirthDate = () =>  new Date(birthDate.toDateString()) < new Date(new Date().toDateString()) 
 
   let animateIntro = () => { anime.timeline({
-    easing: 'linear',
-  })
-  .add({
-    targets: 'h2, h3',
-    translateY: [-50,0],
-    opacity: [0, 1],
-    delay: anime.stagger(2500, {start:1500}),
-  })
-  .add({
-    targets: '.header > p, .date-picker',
-    opacity: [0, 1],
-    duration: 750,
-    delay: 1500,
-  })
-}
-  
-  useEffect(() => {
-    const interval = setInterval(() => setCurrTime(new Date()), 10);
-    console.log("birthDate",birthDate)
-    if (!birthDate) { 
-      animateIntro() 
-    } else {
-      animateContent()
-    }
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  useLayoutEffect( () => {
-    if (birthDate) animateContent()
-  }, [birthDate])
- 
-  const scrollToFooter = () => {
-    console.log("scrolling to bottom")
-    footerRef.current?.scrollIntoView({ block: "end", behavior: "smooth" })
+      easing: 'linear',
+    })
+    .add({
+      targets: 'h2, h3',
+      translateY: [-50,0],
+      opacity: [0, 1],
+      delay: anime.stagger(2500, {start:1500}),
+    })
+    .add({
+      targets: '.header > p, .date-picker',
+      opacity: [0, 1],
+      duration: 750,
+      delay: 1500,
+    })
   }
 
   let animateContent = () => {anime.timeline({  })
@@ -85,22 +60,39 @@ function App() {
         scrollToFooter()
     }
   })}
+  
+  useEffect(() => {
+    if (isValidBirthDate()) { 
+      animateContent()
+    } else {
+      animateIntro() 
+    }
+    const interval = setInterval(() => setCurrTime(new Date()), 10)
+    return () => { clearInterval(interval) }
+  }, []);
+
+  useLayoutEffect( () => {
+    animateContent()
+  }, [birthDate])
+ 
+  const scrollToFooter = () => {
+    footerRef.current?.scrollIntoView({ block: "end", behavior: "smooth" })
+  }
 
   return (
     <div className="App" >
-      
       <div className='header' >
         <h1>Life Clock</h1>
         <h2> You can't know for certain when you will die. </h2>
         <h3> But you can certainly know for how long you've lived. </h3>
         <p>When were you born? </p>
         <DatePicker 
-          onDateChanged={onDateChanged} 
-          defaultActiveStartDate={birthDate ?? new Date()}
+          onDateChanged={ (date) => { setBirthDate(date) } } 
+          defaultValue={birthDate}
         />
       </div>
 
-      {birthDate && <div className='cards-wrapper'>
+      {isValidBirthDate() && <div className='cards-wrapper'>
         <ClockCard units={"Seconds"} timePassed={ch.getSeconds(currTime, birthDate)}/>
         <ClockCard units={"Minutes"} timePassed={ch.getMinutes(currTime, birthDate)}/>
         <ClockCard units={"Hours"} timePassed={ch.getHours(currTime, birthDate)}/>
@@ -110,7 +102,7 @@ function App() {
         <ClockCard units={"Years"} timePassed={ch.getYears(currTime, birthDate)}/>
       </div>}
 
-      {birthDate && <div className='footer' ref={footerRef}>
+      {isValidBirthDate() && <div className='footer' ref={footerRef}>
         <p> Have passed since that day. </p>
         <p> Think of everything you've experienced in this time. </p>
         <p> Did things go the way you expected? </p>

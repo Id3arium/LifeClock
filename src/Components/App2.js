@@ -17,7 +17,6 @@ const useLocalStorage = (storageKey, fallbackState) => {
   return [value, setValue];
 };
 
-
 function App2() {
   const [birthDate, setBirthDate] = useLocalStorage('birthDate', new Date());
   const [currTime, setCurrTime] = useState(new Date());
