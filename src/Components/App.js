@@ -22,9 +22,7 @@ function App() {
   const [currTime, setCurrTime] = useState(new Date());
   const footerRef = useRef()
   
-  const bDay = JSON.parse(localStorage.getItem('birthDate'))
   let onDateChanged = (date) => { 
-    localStorage.setItem('birthDate', JSON.stringify(date))
     setBirthDate(date)
   }
 
@@ -47,8 +45,8 @@ function App() {
   
   useEffect(() => {
     const interval = setInterval(() => setCurrTime(new Date()), 10);
-    console.log("bDay",bDay)
-    if (!bDay) { 
+    console.log("birthDate",birthDate)
+    if (!birthDate) { 
       animateIntro() 
     } else {
       animateContent()
@@ -98,7 +96,7 @@ function App() {
         <p>When were you born? </p>
         <DatePicker 
           onDateChanged={onDateChanged} 
-          defaultActiveStartDate={bDay ? new Date(bDay) : new Date()}
+          defaultActiveStartDate={birthDate ?? new Date()}
         />
       </div>
 
