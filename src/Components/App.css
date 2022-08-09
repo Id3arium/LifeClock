@@ -8,9 +8,10 @@
 }
 
 .cards-wrapper{
-  display: inline-block;
+  display: flex;
   margin: 15px 5%;
-  text-align: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .footer{
