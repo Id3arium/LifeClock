@@ -5,7 +5,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #0731d9;
+  background-color: #0531cd;
+  /*
+  background-image: url("https://www.transparenttextures.com/patterns/triangles.png");
+  background-image: url("https://www.transparenttextures.com/patterns/gplay.png");
+  */
+  background-image:url("https://www.transparenttextures.com/patterns/transparent-square-tiles.png");
 }
 
 code {
