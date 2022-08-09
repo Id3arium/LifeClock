@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  color: #DDD;
+  color: #EEE;
   
 }
 
@@ -9,8 +9,8 @@
 }
 
 .cards-wrapper{
+  display: inline-block;
   margin: 15px 5%;
-  display: flex;
   justify-content: center;
 }
 
