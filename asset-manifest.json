@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/LifeClock/static/css/main.04da9ae7.css",
-    "main.js": "/LifeClock/static/js/main.92ac9b5f.js",
+    "main.css": "/LifeClock/static/css/main.d7a42426.css",
+    "main.js": "/LifeClock/static/js/main.0370b471.js",
     "static/js/787.a5b4656b.chunk.js": "/LifeClock/static/js/787.a5b4656b.chunk.js",
+    "static/media/pngfind.com-starry-night-png-723840.png": "/LifeClock/static/media/pngfind.com-starry-night-png-723840.1cb6a7819f40788fc92d.png",
     "index.html": "/LifeClock/index.html",
-    "main.04da9ae7.css.map": "/LifeClock/static/css/main.04da9ae7.css.map",
-    "main.92ac9b5f.js.map": "/LifeClock/static/js/main.92ac9b5f.js.map",
+    "main.d7a42426.css.map": "/LifeClock/static/css/main.d7a42426.css.map",
+    "main.0370b471.js.map": "/LifeClock/static/js/main.0370b471.js.map",
     "787.a5b4656b.chunk.js.map": "/LifeClock/static/js/787.a5b4656b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.04da9ae7.css",
-    "static/js/main.92ac9b5f.js"
+    "static/css/main.d7a42426.css",
+    "static/js/main.0370b471.js"
   ]
 }
