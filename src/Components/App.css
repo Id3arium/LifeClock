@@ -1,7 +1,6 @@
 .App {
   text-align: center;
   color: #EEE;
-  
 }
 
 .App-link {
@@ -11,7 +10,7 @@
 .cards-wrapper{
   display: inline-block;
   margin: 15px 5%;
-  justify-content: center;
+  text-align: center;
 }
 
 .footer{
