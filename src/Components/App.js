@@ -5,24 +5,10 @@ import anime from 'animejs';
 import ClockCard from './ClockCard/ClockCard';
 import * as ch from './ClockHelpers'
 
-const useLocalStorage = (storageKey, fallbackState) => {
-  const [value, setValue] = React.useState(
-    new Date(JSON.parse(localStorage.getItem(storageKey))) ?? fallbackState
-  );
-
-  React.useEffect(() => {
-    localStorage.setItem(storageKey, JSON.stringify(value));
-  }, [value, storageKey]);
-
-  return [value, setValue];
-};
-
 function App() {
-  const [birthDate, setBirthDate] = useLocalStorage('birthDate', new Date());
+  const [birthDate, setBirthDate] = useLocalStorageDate('birthDate');
   const [currTime, setCurrTime] = useState(new Date());
   const footerRef = useRef()
-
-  let isValidBirthDate = () =>  new Date(birthDate.toDateString()) < new Date(new Date().toDateString()) 
 
   let animateIntro = () => { anime.timeline({
       easing: 'linear',
@@ -62,7 +48,7 @@ function App() {
   })}
   
   useEffect(() => {
-    if (isValidBirthDate()) { 
+    if (isValidBirthDate(birthDate)) { 
       animateContent()
     } else {
       animateIntro() 
@@ -92,7 +78,7 @@ function App() {
         />
       </div>
 
-      {isValidBirthDate() && <div className='cards-wrapper'>
+      {isValidBirthDate(birthDate) && <div className='cards-wrapper'>
         <ClockCard units={"Seconds"} timePassed={ch.getSeconds(currTime, birthDate)}/>
         <ClockCard units={"Minutes"} timePassed={ch.getMinutes(currTime, birthDate)}/>
         <ClockCard units={"Hours"} timePassed={ch.getHours(currTime, birthDate)}/>
@@ -102,9 +88,9 @@ function App() {
         <ClockCard units={"Years"} timePassed={ch.getYears(currTime, birthDate)}/>
       </div>}
 
-      {isValidBirthDate() && <div className='footer' ref={footerRef}>
+      {isValidBirthDate(birthDate) && <div className='footer' ref={footerRef}>
         <p> Have passed since that day. </p>
-        <p> Think of everything you've experienced in this time. </p>
+        <p> Think of everything that happened in this time. </p>
         <p> Did things go the way you expected? </p>
         <p> What will you do next? </p>
       </div>}
@@ -112,5 +98,19 @@ function App() {
     </div>
   );
 }
+
+const isValidBirthDate = (birthDate) =>  new Date(birthDate.toDateString()) < new Date(new Date().toDateString()) 
+
+const useLocalStorageDate = (storageKey) => {
+  const storedDate = JSON.parse(localStorage.getItem(storageKey))
+  const [date, setDate] = React.useState(
+    new Date(storedDate ?? new Date())
+  );
+  React.useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify(date));
+  }, [date, storageKey]);
+
+  return [date, setDate];
+};
 
 export default App;
