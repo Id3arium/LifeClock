@@ -9,6 +9,7 @@ function App() {
   const [birthDate, setBirthDate] = useLocalStorageDate('birthDate');
   const [currTime, setCurrTime] = useState(new Date());
   const footerRef = useRef()
+  const clocksRef = useRef()
 
   let animateIntro = () => { anime.timeline({
       easing: 'linear',
@@ -35,6 +36,9 @@ function App() {
       translateX: [anime.stagger([500,-500]),0],
       opacity: [0, 1],
       easing: 'easeOutQuad',
+      changeBegin: (anim) => {
+        scrollToElement(clocksRef)
+      }
     })
     .add({
       targets: '.footer > *',
@@ -43,8 +47,8 @@ function App() {
       delay: anime.stagger(3500, {start:10000}),
       easing: 'easeOutQuad',
       changeBegin: (anim) => {
-        scrollToFooter()
-    }
+        scrollToElement(footerRef)
+      }
   })}
   
   useEffect(() => {
@@ -61,8 +65,8 @@ function App() {
     animateContent()
   }, [birthDate])
  
-  const scrollToFooter = () => {
-    footerRef.current?.scrollIntoView({ block: "end", behavior: "smooth" })
+  const scrollToElement = (element) => {
+    element.current?.scrollIntoView({ block: "end", behavior: "smooth" })
   }
 
   return (
@@ -78,7 +82,7 @@ function App() {
         />
       </div>
 
-      {isValidBirthDate(birthDate) && <div className='cards-wrapper'>
+      {isValidBirthDate(birthDate) && <div className='cards-wrapper' ref={clocksRef}>
         <ClockCard units={"Seconds"} timePassed={ch.getSeconds(currTime, birthDate)}/>
         <ClockCard units={"Minutes"} timePassed={ch.getMinutes(currTime, birthDate)}/>
         <ClockCard units={"Hours"} timePassed={ch.getHours(currTime, birthDate)}/>
