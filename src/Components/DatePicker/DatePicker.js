@@ -8,7 +8,8 @@ export default function DatePicker(props){
             <Calendar 
                 className="centered" 
                 onClickDay={e => props.onDateChanged(e)} 
-                {...props}
+                activeStartDate = {props.activeStartDate}
+                defaultValue = {props.defaultValue}
             />
         </div>
     )
