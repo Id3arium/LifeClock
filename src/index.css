@@ -11,8 +11,10 @@ body {
   background-image: url("https://www.transparenttextures.com/patterns/gplay.png");
   background-image:url("https://www.transparenttextures.com/patterns/transparent-square-tiles.png");
   */
-  background-repeat: no-repeat;
   background-image: url("./Images/pngfind.com-starry-night-png-723840.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center top;
 }
 
 code {
